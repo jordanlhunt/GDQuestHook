@@ -25,7 +25,7 @@ func PhysicsProcess(delta: float) -> void:
 	return
 
 
-func TransitionState(message: Dictionary = {}) -> void:
+func EnterState(message: Dictionary = {}) -> void:
 	return
 
 
