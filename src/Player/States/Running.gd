@@ -1,16 +1,27 @@
 extends State
 
-
-# Declare member variables here. Examples:
-# var a: int = 2
-# var b: String = "text"
+onready var movementState = get_parent()
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+func UnhandledInput(event: InputEvent) -> void:
+	movementState.UnhandledInput(event)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-#	pass
+func PhysicsProcess(delta: float) -> void:
+	var isOnFloor: bool = owner.is_on_floor()
+	var currentMovementDirection: Vector2 = movementState.GetMovementDirection()
+	# If on the floor and not moving go to idle
+	if isOnFloor:
+		if currentMovementDirection.x == 0.0:
+			parentStateMachine.TransitionToNewState("Movement/Idle")
+	else:
+		parentStateMachine.TransitionToNewState("Movement/Air")
+	movementState.PhysicsProcess(delta)
+
+
+func EnterState(message: Dictionary = {}) -> void:
+	movementState.EnterState(message)
+
+
+func ExitState() -> void:
+	movementState.ExitState()
