@@ -6,8 +6,7 @@ class_name StateMachine, "res://assets/icons/state_machine.svg"
 Generic State Machine. It creates States and delegates engine callbacks (_physics_process, _unhandled_input) to current active state
 """
 
-export var initialState = NodePath()
-
+export var initialState := NodePath()
 onready var currentState: State = get_node(initialState) setget SetState
 onready var currentStateName := currentState.name
 
@@ -27,7 +26,7 @@ func TransitionToNewState(targetStatePath: String, message: Dictionary = {}) -> 
 		return
 	var targetState := get_node(targetStatePath)
 	currentState.ExitState()
-	currentState = targetState
+	self.currentState = targetState
 	currentState.EnterState(message)
 
 

@@ -7,7 +7,7 @@ Use State as a child of a StateMachine node.
 """
 
 # Reference to the StateMachine it belongs to
-onready var parentStateMachine = GetStateMachine(self)
+onready var parentStateMachine := GetStateMachine(self)
 
 
 # A recursive call to get the StateMachine node a state belongs to
@@ -18,16 +18,16 @@ func GetStateMachine(node: Node) -> Node:
 
 
 func UnhandledInput(event: InputEvent) -> void:
-	return
+	pass
 
 
 func PhysicsProcess(delta: float) -> void:
-	return
+	pass
 
 
 func EnterState(message: Dictionary = {}) -> void:
-	return
+	pass
 
 
 func ExitState() -> void:
-	return
+	pass

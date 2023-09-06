@@ -16,11 +16,11 @@ extents = Vector2( 27.5, 40 )
 collision_mask = 10
 script = ExtResource( 7 )
 
-[node name="CameraRig" parent="." instance=ExtResource( 8 )]
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, -40 )
 shape = SubResource( 1 )
+
+[node name="CameraRig" parent="." instance=ExtResource( 8 )]
 
 [node name="StateMachine" type="Node" parent="." groups=["StateMachineGroup"]]
 script = ExtResource( 2 )
@@ -39,8 +39,8 @@ script = ExtResource( 3 )
 script = ExtResource( 4 )
 
 [node name="Robi" type="Sprite" parent="."]
-position = Vector2( -1.0707, -80 )
-scale = Vector2( 0.587673, 0.569395 )
+position = Vector2( 0, -71.5 )
+scale = Vector2( 0.5, 0.5 )
 texture = ExtResource( 1 )
 __meta__ = {
 "_edit_lock_": true

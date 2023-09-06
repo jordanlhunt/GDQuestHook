@@ -1,13 +1,15 @@
 extends State
 
-onready var movementState = get_parent()
+
 
 
 func UnhandledInput(event: InputEvent) -> void:
+	var movementState = get_parent()
 	movementState.UnhandledInput(event)
 
 
 func PhysicsProcess(delta: float) -> void:
+	var movementState = get_parent()
 	var isOnFloor: bool = owner.is_on_floor()
 	var currentMovementDirection: Vector2 = movementState.GetMovementDirection()
 	# If on the floor and not moving go to idle
@@ -15,13 +17,15 @@ func PhysicsProcess(delta: float) -> void:
 		if currentMovementDirection.x == 0.0:
 			parentStateMachine.TransitionToNewState("Movement/Idle")
 	else:
-		parentStateMachine.TransitionToNewState("Movement/Air")
+		parentStateMachine.TransitionToNewState("Movement/InAir")
 	movementState.PhysicsProcess(delta)
 
 
 func EnterState(message: Dictionary = {}) -> void:
+	var movementState = get_parent()
 	movementState.EnterState(message)
 
 
 func ExitState() -> void:
+	var movementState = get_parent()
 	movementState.ExitState()

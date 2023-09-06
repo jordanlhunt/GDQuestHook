@@ -5,10 +5,9 @@ Parent State that abstracts and handles movement
 Movement-related child states can delegate movement to it, or use its utility functions
 """
 
-export var maxSpeedDefault = Vector2(500.0, 1500.0)
 export var accelerationDefault = Vector2(100000, 3000.0)
 export var jumpImpluse: float = 900.0
-
+export var maxSpeedDefault = Vector2(500.0, 1500.0)
 var currentAcceleration: Vector2 = accelerationDefault
 var maxSpeed: Vector2 = maxSpeedDefault
 var velocity: Vector2 = Vector2.ZERO
@@ -16,12 +15,12 @@ var velocity: Vector2 = Vector2.ZERO
 
 func UnhandledInput(event: InputEvent) -> void:
 	if owner.is_on_floor() and event.is_action_pressed("jump"):
-		parentStateMachine.TransitionToNewState("Movement/InAir", {impluse = jumpImpluse})
+		parentStateMachine.TransitionToNewState("Movement/InAir", {jumpImpluse = jumpImpluse})
 
 
 func PhysicsProcess(delta: float) -> void:
 	velocity = CalculateVelocity(
-		velocity, maxSpeed, accelerationDefault, GetMovementDirection(), delta
+		velocity, maxSpeed, currentAcceleration, GetMovementDirection(), delta
 	)
 	velocity = owner.move_and_slide(velocity, owner.FLOOR_NORMAL)
 	Events.emit_signal("player_moved", owner)
