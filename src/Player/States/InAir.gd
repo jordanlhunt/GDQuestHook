@@ -1,10 +1,16 @@
 extends State
 
 export var acclerationX: float = 5000.0
+export var jumpImpluse: float = 900.0
+var isDoubleJumpAvailable: bool = true
+var jumpCount = 0
 
 
 func UnhandledInput(event: InputEvent) -> void:
 	var movementState = get_parent()
+	if event.is_action_pressed("jump") and jumpCount < 2:
+		Jump()
+		jumpCount += 1
 	movementState.UnhandledInput(event)
 
 
@@ -28,20 +34,32 @@ func EnterState(message: Dictionary = {}) -> void:
 	movementState.currentAcceleration.x = acclerationX
 	if "velocity" in message:
 		movementState.velocity = message.velocity
+		# Maintain max speed in the air
 		movementState.maxSpeed.x = max(abs(message.velocity.x), movementState.maxSpeedDefault.x)
 	if "jumpImpluse" in message:
-		movementState.velocity += CalculateJumpVelocity(message.jumpImpluse)
+		Jump()
 
 
 func ExitState() -> void:
-	var movementState = get_parent()
+	var movementState := get_parent()
 	movementState.ExitState()
+	jumpCount = 0
 	movementState.currentAcceleration = movementState.accelerationDefault
 
 
-func CalculateJumpVelocity(jumpImpluse = 0.0) -> Vector2:
+func CalculateJumpVelocity(jumpImpluse: float = 0.0) -> Vector2:
 	var movementState = get_parent()
 	var retunImpluse = movementState.CalculateVelocity(
-		movementState.velocity, movementState.maxSpeed, Vector2(0.0, jumpImpluse), Vector2.UP, 1.0
+		movementState.velocity,
+		movementState.maxSpeed,
+		Vector2(0.0, jumpImpluse),
+		Vector2.ZERO,
+		Vector2.UP,
+		1.0
 	)
 	return retunImpluse
+
+
+func Jump() -> void:
+	var movementState := get_parent()
+	movementState.velocity += CalculateJumpVelocity(jumpImpluse)
