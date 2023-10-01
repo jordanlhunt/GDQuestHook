@@ -51,6 +51,7 @@ config/icon="res://icon.png"
 [autoload]
 
 Events="*res://src/Autoload/Events.gd"
+Steering="*res://src/Autoload/Steering.gd"
 
 [debug]
 

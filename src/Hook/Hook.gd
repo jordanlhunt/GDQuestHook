@@ -1,6 +1,8 @@
 extends Position2D
 class_name Hook, "res://assets/icons/icon_hook.svg"
 
+signal OnHookHookedOntoTarget(targetGlobalPosition)
+
 onready var rayCastNode: RayCast2D = get_node("RayCast2D")
 onready var arrowNode: Node2D = get_node("Arrow")
 onready var snapDetectorNode: Area2D = get_node("SnapDetector")
@@ -17,6 +19,6 @@ func GetAimDirection() -> Vector2:
 	var aimingDirection: Vector2 = get_local_mouse_position().normalized()
 	return aimingDirection
 
+
 func _ready() -> void:
 	rayCastNode.cast_to.x = 300
-

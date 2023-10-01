@@ -4,7 +4,7 @@ class_name Player
 
 onready var stateMachine: StateMachine = get_node("StateMachine")
 onready var collider: CollisionShape2D = get_node("CollisionShape2D")
-onready var hookNode : Hook = get_node("Hook")
+onready var hookNode: Position2D = get_node("Hook")
 
 const FLOOR_NORMAL := Vector2.UP
 

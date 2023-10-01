@@ -13,7 +13,6 @@ var currentAcceleration: Vector2 = accelerationDefault
 var currentDeceleration: Vector2 = decelerationDefault
 var maxSpeed: Vector2 = maxSpeedDefault
 var velocity: Vector2 = Vector2.ZERO
-
 var isDoubleJumpAvailable: bool = true
 
 
@@ -34,6 +33,14 @@ func PhysicsProcess(delta: float) -> void:
 	)
 	velocity = owner.move_and_slide(velocity, owner.FLOOR_NORMAL)
 	Events.emit_signal("player_moved", owner)
+
+
+func EnterState(message: Dictionary = {}) -> void:
+	owner.hookNode.connect("OnHookHookedOntoTarget", self, "OnHookHookedOntoTarget")
+
+
+func ExitState() -> void:
+	owner.hookNode.disconnect("OnHookHookedOntoTarget", self, "OnHookHookedOntoTarget")
 
 
 # TODO: Tighten up deceleration ratye
@@ -69,3 +76,10 @@ static func GetMovementDirection() -> Vector2:
 	)
 
 	return movementDirection
+
+
+func OnHookHookedOntoTarget(hookTargetGlobalPosition: Vector2) -> void:
+	var distanceToTarget: Vector2 = hookTargetGlobalPosition - owner.global_position
+	if owner.is_on_floor() and distanceToTarget.y > 0.0:
+		return
+	parentStateMachine.TransitionToNewState("HookedOn", {hookTargetGlobalPosition = hookTargetGlobalPosition, velocity = self.velocity})
